@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@drawable/gradient_background"
+    android:gravity="center"
+    tools:context=".LoginActivity">
+
+    <!-- Logo or App Name -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="House Cleaner"
+        android:textSize="28sp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:layout_marginBottom="32dp" />
+
+    <!-- Email Input -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:hint="Email"
+
+        android:textColorHint="@android:color/white"
+        app:boxStrokeColor="@android:color/white"
+
+        app:shapeAppearanceOverlay="@style/RoundedTextInputLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Password Input -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:hint="Password"
+        android:textColorHint="@android:color/white"
+        app:boxStrokeColor="@android:color/white"
+        app:boxStrokeWidth="1dp"
+        app:shapeAppearanceOverlay="@style/RoundedTextInputLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Login Button -->
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#E95026"
+        android:drawableStart="@drawable/ic_login"
+        android:drawablePadding="8dp"
+        android:drawableTint="@android:color/white"
+        android:paddingHorizontal="24dp"
+        android:paddingVertical="12dp"
+        android:text="Login"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white" />
+
+    <!-- Sign Up Button -->
+    <Button
+        android:id="@+id/btnSignup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sign Up"
+        android:textColor="@color/orange_yellow_dark"
+        android:backgroundTint="@android:color/white"
+        android:textAllCaps="false"
+        android:paddingVertical="12dp"
+        android:paddingHorizontal="24dp"
+        android:drawablePadding="8dp"
+        android:drawableStart="@drawable/ic_signup"
+        android:drawableTint="@color/orange_yellow_dark" />
+
+</LinearLayout>

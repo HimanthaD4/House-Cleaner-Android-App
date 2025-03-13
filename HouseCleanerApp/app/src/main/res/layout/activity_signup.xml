@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_background"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center"
+    tools:context=".SignupActivity">
+
+    <!-- App Name or Logo -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create Account"
+        android:textColor="#FFFFFF"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="40dp" />
+
+    <!-- Full Name Input -->
+    <EditText
+        android:id="@+id/nameEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Full Name"
+        android:background="@drawable/edittext_background"
+        android:padding="16dp"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#B3FFFFFF" />
+
+    <!-- Email Input -->
+    <EditText
+        android:id="@+id/emailEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:background="@drawable/edittext_background"
+        android:padding="16dp"
+        android:layout_marginTop="16dp"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#B3FFFFFF" />
+
+    <!-- Password Input -->
+    <EditText
+        android:id="@+id/passwordEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:background="@drawable/edittext_background"
+        android:padding="16dp"
+        android:layout_marginTop="16dp"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#B3FFFFFF" />
+
+    <!-- User Type Selection Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="24dp">
+
+        <Button
+            android:id="@+id/btnOwner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="#00D5C6C6"
+            android:text="House Owner"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/btnCleaner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_weight="1"
+            android:backgroundTint="#29DBCFC8"
+            android:text="Cleaner"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
+
+    <!-- Sign Up Button -->
+    <Button
+        android:id="@+id/btnSignup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sign Up"
+        android:background="@drawable/button_background"
+        android:textColor="#FFFFFF"
+        android:layout_marginTop="32dp" />
+</LinearLayout>
