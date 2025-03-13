@@ -14,13 +14,9 @@
         <item>Prefer not to say</item>
     </string-array>
 
-
     <string-array name="user_types">
         <item>Owner</item>
         <item>Cleaner</item>
     </string-array>
-
-
-
 
 </resources>

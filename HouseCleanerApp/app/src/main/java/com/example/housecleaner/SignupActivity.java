@@ -13,6 +13,7 @@ public class SignupActivity extends AppCompatActivity {
     private Button btnOwner, btnCleaner, btnSignup;
     private DatabaseHelper dbHelper;
     private String selectedUserType = "";
+    private Button btnLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +26,11 @@ public class SignupActivity extends AppCompatActivity {
         btnOwner = findViewById(R.id.btnOwner);
         btnCleaner = findViewById(R.id.btnCleaner);
         btnSignup = findViewById(R.id.btnSignup);
+        btnLogin = findViewById(R.id.btnLogin);
+
+        btnSignup.setOnClickListener(v -> {
+            startActivity(new Intent(SignupActivity.this, LoginActivity.class));
+        });
 
         dbHelper = new DatabaseHelper(this);
 

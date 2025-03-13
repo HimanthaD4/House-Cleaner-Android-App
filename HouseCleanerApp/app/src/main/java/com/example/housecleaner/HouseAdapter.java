@@ -6,6 +6,7 @@ import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -16,10 +17,12 @@ public class HouseAdapter extends RecyclerView.Adapter<HouseAdapter.HouseViewHol
 
     private List<House> houseList;
     private OnHouseListener onHouseListener;
+    private DatabaseHelper dbHelper;
 
-    public HouseAdapter(List<House> houseList, OnHouseListener onHouseListener) {
+    public HouseAdapter(List<House> houseList, OnHouseListener onHouseListener, DatabaseHelper dbHelper) {
         this.houseList = houseList;
         this.onHouseListener = onHouseListener;
+        this.dbHelper = dbHelper;
     }
 
     @NonNull
@@ -39,6 +42,7 @@ public class HouseAdapter extends RecyclerView.Adapter<HouseAdapter.HouseViewHol
         holder.tvRoomsBathrooms.setText("Rooms: " + house.getRooms() + ", Bathrooms: " + house.getBathrooms());
         holder.tvFloorType.setText("Floor Type: " + house.getFloorType());
         holder.tvContact.setText("Contact: " + house.getContact());
+        holder.tvPrice.setText("LKR " + house.getPrice()); // Display price
 
         // Load house image
         if (house.getImage() != null && !house.getImage().isEmpty()) {
@@ -54,6 +58,14 @@ public class HouseAdapter extends RecyclerView.Adapter<HouseAdapter.HouseViewHol
             if (onHouseListener != null) {
                 onHouseListener.onHouseDelete(position);
             }
+        });
+
+        // Handle toggle status button click
+        holder.btnToggleStatus.setOnClickListener(v -> {
+            String newStatus = house.getStatus().equals("available") ? "accepted" : "available";
+            dbHelper.updateHouseStatus(house.getId(), newStatus); // Update status in DB
+            house.setStatus(newStatus); // Update status in the list
+            notifyItemChanged(position); // Refresh the item
         });
     }
 
@@ -71,10 +83,11 @@ public class HouseAdapter extends RecyclerView.Adapter<HouseAdapter.HouseViewHol
         notifyItemRemoved(position);
     }
 
-    public static class HouseViewHolder extends RecyclerView.ViewHolder {
+    static class HouseViewHolder extends RecyclerView.ViewHolder {
 
-        TextView location, status, tvRoomsBathrooms, tvFloorType, tvContact;
-        ImageView ivHouseImage, btnDelete;
+        TextView location, status, tvRoomsBathrooms, tvFloorType, tvContact, tvPrice;
+        ImageView ivHouseImage;
+        Button btnDelete, btnToggleStatus;
 
         public HouseViewHolder(@NonNull View itemView, OnHouseListener onHouseListener) {
             super(itemView);
@@ -83,8 +96,10 @@ public class HouseAdapter extends RecyclerView.Adapter<HouseAdapter.HouseViewHol
             tvRoomsBathrooms = itemView.findViewById(R.id.tvRoomsBathrooms);
             tvFloorType = itemView.findViewById(R.id.tvFloorType);
             tvContact = itemView.findViewById(R.id.tvContact);
+            tvPrice = itemView.findViewById(R.id.tvPrice);
             ivHouseImage = itemView.findViewById(R.id.ivHouseImage);
             btnDelete = itemView.findViewById(R.id.btnDelete);
+            btnToggleStatus = itemView.findViewById(R.id.btnToggleStatus); // Initialize toggle button
         }
     }
 

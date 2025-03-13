@@ -7,98 +7,125 @@
     android:layout_margin="8dp"
     app:cardCornerRadius="12dp"
     app:cardElevation="4dp"
-    app:cardUseCompatPadding="true"
-    android:backgroundTint="@android:color/white">
+    app:cardUseCompatPadding="true">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="12dp">
+        android:orientation="vertical"
+        android:padding="16dp">
 
         <!-- House Image -->
         <ImageView
             android:id="@+id/ivHouseImage"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
             android:scaleType="centerCrop"
             android:contentDescription="House Image"
-            android:background="@color/light_gray"
-            android:layout_marginEnd="12dp" />
+            android:background="@color/light_gray" />
 
         <!-- Location -->
         <TextView
             android:id="@+id/location"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Location"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:textStyle="bold"
-            android:textColor="@android:color/black"
-            android:layout_toEndOf="@id/ivHouseImage"
-            android:layout_alignTop="@id/ivHouseImage" />
+            android:textColor="@color/black"
+            android:layout_marginTop="8dp"
+            android:text="Location" />
 
         <!-- Status -->
         <TextView
             android:id="@+id/status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Status"
-            android:textSize="12sp"
-            android:textColor="@color/orange_yellow"
-            android:layout_below="@id/location"
-            android:layout_toEndOf="@id/ivHouseImage"
-            android:layout_marginTop="4dp" />
+            android:textSize="14sp"
+            android:textColor="@color/secondaryText"
+            android:layout_marginTop="4dp"
+            android:text="Status: Pending" />
 
-        <!-- Rooms and Bathrooms -->
+        <!-- Rooms & Bathrooms -->
         <TextView
             android:id="@+id/tvRoomsBathrooms"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Rooms: 3, Bathrooms: 2"
-            android:textSize="12sp"
-            android:textColor="@android:color/black"
-            android:layout_below="@id/status"
-            android:layout_toEndOf="@id/ivHouseImage"
-            android:layout_marginTop="4dp" />
+            android:textSize="14sp"
+            android:textColor="@color/secondaryText"
+            android:layout_marginTop="8dp"
+            android:text="Rooms: 3 | Bathrooms: 2" />
 
         <!-- Floor Type -->
         <TextView
             android:id="@+id/tvFloorType"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Floor Type: Tile"
-            android:textSize="12sp"
-            android:textColor="@android:color/black"
-            android:layout_below="@id/tvRoomsBathrooms"
-            android:layout_toEndOf="@id/ivHouseImage"
-            android:layout_marginTop="4dp" />
+            android:textSize="14sp"
+            android:textColor="@color/secondaryText"
+            android:layout_marginTop="8dp"
+            android:text="Floor Type: Tile" />
 
         <!-- Contact -->
         <TextView
             android:id="@+id/tvContact"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Contact: 1234567890"
-            android:textSize="12sp"
-            android:textColor="@android:color/black"
-            android:layout_below="@id/tvFloorType"
-            android:layout_toEndOf="@id/ivHouseImage"
-            android:layout_marginTop="4dp" />
+            android:textSize="14sp"
+            android:textColor="@color/secondaryText"
+            android:layout_marginTop="8dp"
+            android:text="Contact: +94 123 456 789" />
 
-        <!-- Delete Button (Icon) -->
-        <ImageView
-            android:id="@+id/btnDelete"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="8dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:backgroundTint="#712323"
-            android:contentDescription="Delete"
-            android:padding="4dp"
-            android:src="@drawable/ic_delete"
-            android:tint="@color/orange_yellow_dark" />
+        <!-- Price -->
+        <TextView
+            android:id="@+id/tvPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/green"
+            android:layout_marginTop="8dp"
+            android:text="LKR 5,000.00" />
 
-    </RelativeLayout>
+        <!-- Button Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp"
+            android:weightSum="2"
+            android:baselineAligned="false">
+
+            <!-- Toggle Status Button -->
+            <Button
+                android:id="@+id/btnToggleStatus"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Change Status"
+                android:backgroundTint="@color/orange_yellow"
+                android:textColor="@android:color/white"
+                android:textAllCaps="false"
+                android:paddingVertical="12dp"
+                android:layout_marginEnd="8dp"
+
+                android:drawablePadding="8dp"
+                android:drawableTint="@android:color/white" />
+
+            <!-- Delete Button -->
+            <Button
+                android:id="@+id/btnDelete"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Delete"
+                android:backgroundTint="@color/black"
+                android:textColor="@android:color/white"
+                android:textAllCaps="false"
+                android:paddingVertical="12dp"
+                android:drawableStart="@drawable/ic_delete"
+                android:drawablePadding="8dp"
+                android:drawableTint="@android:color/white" />
+        </LinearLayout>
+
+    </LinearLayout>
 </androidx.cardview.widget.CardView>

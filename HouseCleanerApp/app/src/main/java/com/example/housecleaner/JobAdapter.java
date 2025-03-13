@@ -50,7 +50,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
 
     static class JobViewHolder extends RecyclerView.ViewHolder {
         ImageView jobImage;
-        TextView location, status, rooms, bathrooms, floorType, contact;
+        TextView location, status, rooms, bathrooms, floorType, contact, price;
 
         JobViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -61,6 +61,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
             bathrooms = itemView.findViewById(R.id.tvBathrooms);
             floorType = itemView.findViewById(R.id.tvFloorType);
             contact = itemView.findViewById(R.id.tvContact);
+            price = itemView.findViewById(R.id.tvPrice); // Initialize price TextView
         }
 
         void bind(House house) {
@@ -70,6 +71,9 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
             bathrooms.setText("Bathrooms: " + house.getBathrooms());
             floorType.setText("Floor: " + house.getFloorType());
             contact.setText("Contact: " + house.getContact());
+            price.setText("LKR " + house.getPrice()); // Set price
+
+            // Load image
             if (house.getImage() != null && !house.getImage().isEmpty()) {
                 byte[] decodedString = Base64.decode(house.getImage(), Base64.DEFAULT);
                 Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);

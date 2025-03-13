@@ -1,4 +1,5 @@
 package com.example.housecleaner;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -9,7 +10,7 @@ import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "HouseCleaner.db";
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 6; // Incremented version for schema changes
 
     // Table names
     private static final String TABLE_USERS = "users";
@@ -27,8 +28,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COL_PASSWORD = "password";
     private static final String COL_USER_TYPE = "user_type";
 
-    private static DatabaseHelper instance;
-
     // Houses table columns
     private static final String COL_LOCATION = "location";
     private static final String COL_ROOMS = "rooms";
@@ -37,12 +36,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COL_CONTACT = "contact";
     private static final String COL_IMAGE = "image";
     private static final String COL_STATUS = "status";
+    private static final String COL_PRICE = "price"; // Added price column
 
     // Comments table columns
     private static final String COL_COMMENT_ID = "comment_id";
     private static final String COL_PARENT_ID = "parent_id";
     private static final String COL_COMMENT_TEXT = "comment_text";
     private static final String COL_TIMESTAMP = "timestamp";
+
+    // Price calculation constants
+    private static final int BASE_PRICE = 2000; // Base price in LKR
+    private static final int ROOM_PRICE = 500; // Price per room
+    private static final int BATHROOM_PRICE = 300; // Price per bathroom
+
+    // Singleton instance
+    private static DatabaseHelper instance;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -58,7 +66,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + COL_PASSWORD + " TEXT,"
                 + COL_USER_TYPE + " TEXT)");
 
-        // Create houses table
+        // Create houses table with price column
         db.execSQL("CREATE TABLE " + TABLE_HOUSES + "("
                 + COL_HOUSE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + COL_USER_ID + " INTEGER,"
@@ -68,7 +76,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + COL_FLOOR_TYPE + " TEXT,"
                 + COL_CONTACT + " TEXT,"
                 + COL_IMAGE + " TEXT,"
-                + COL_STATUS + " TEXT DEFAULT 'available')");
+                + COL_STATUS + " TEXT DEFAULT 'available',"
+                + COL_PRICE + " INTEGER)"); // Added price column
 
         // Create comments table
         db.execSQL("CREATE TABLE " + TABLE_COMMENTS + "("
@@ -88,7 +97,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    // User operations
+    // Singleton method
+    public static synchronized DatabaseHelper getInstance(Context context) {
+        if (instance == null) {
+            instance = new DatabaseHelper(context.getApplicationContext());
+        }
+        return instance;
+    }
+
+    // User operations (unchanged)
     public boolean insertUser(String name, String email, String password, String userType) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -134,17 +151,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return null;
     }
 
-    public static synchronized DatabaseHelper getInstance(Context context) {
-        if (instance == null) {
-            instance = new DatabaseHelper(context.getApplicationContext());
-        }
-        return instance;
-    }
-
-    // House operations
+    // House operations with price calculation
     public boolean addHouse(House house, int userId) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+
+        // Calculate price
+        int price = calculateCleaningPrice(
+                Integer.parseInt(house.getRooms()),
+                Integer.parseInt(house.getBathrooms()),
+                house.getFloorType()
+        );
+
         values.put(COL_USER_ID, userId);
         values.put(COL_LOCATION, house.getLocation());
         values.put(COL_ROOMS, house.getRooms());
@@ -152,9 +170,44 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COL_FLOOR_TYPE, house.getFloorType());
         values.put(COL_CONTACT, house.getContact());
         values.put(COL_IMAGE, house.getImage());
+        values.put(COL_PRICE, price); // Add calculated price
+
         return db.insert(TABLE_HOUSES, null, values) != -1;
     }
 
+    // Price calculation logic
+    private int calculateCleaningPrice(int rooms, int bathrooms, String floorType) {
+        // Base price components
+        int roomCharge = rooms * ROOM_PRICE;
+        int bathroomCharge = bathrooms * BATHROOM_PRICE;
+
+        // Floor type multipliers
+        double floorMultiplier = 1.0;
+        switch (floorType.toLowerCase()) {
+            case "hardwood":
+                floorMultiplier = 1.5;
+                break;
+            case "tile":
+                floorMultiplier = 1.0;
+                break;
+            case "carpet":
+                floorMultiplier = 1.2;
+                break;
+            case "laminate":
+                floorMultiplier = 1.3;
+                break;
+            case "concrete":
+                floorMultiplier = 1.1;
+                break;
+            default:
+                floorMultiplier = 1.0;
+        }
+
+        // Calculate total price
+        return (int) ((BASE_PRICE + roomCharge + bathroomCharge) * floorMultiplier);
+    }
+
+    // Updated house retrieval methods to include price
     public List<House> getHousesByUserId(int userId) {
         List<House> houses = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -163,17 +216,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                House house = new House(
-                        cursor.getString(cursor.getColumnIndex(COL_LOCATION)),
-                        cursor.getString(cursor.getColumnIndex(COL_ROOMS)),
-                        cursor.getString(cursor.getColumnIndex(COL_BATHROOMS)),
-                        cursor.getString(cursor.getColumnIndex(COL_FLOOR_TYPE)),
-                        cursor.getString(cursor.getColumnIndex(COL_CONTACT)),
-                        cursor.getString(cursor.getColumnIndex(COL_IMAGE))
-                );
-                house.setId(cursor.getInt(cursor.getColumnIndex(COL_HOUSE_ID)));
-                house.setUserId(cursor.getInt(cursor.getColumnIndex(COL_USER_ID)));
-                house.setStatus(cursor.getString(cursor.getColumnIndex(COL_STATUS)));
+                House house = createHouseFromCursor(cursor);
                 houses.add(house);
             } while (cursor.moveToNext());
         }
@@ -189,17 +232,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                House house = new House(
-                        cursor.getString(cursor.getColumnIndex(COL_LOCATION)),
-                        cursor.getString(cursor.getColumnIndex(COL_ROOMS)),
-                        cursor.getString(cursor.getColumnIndex(COL_BATHROOMS)),
-                        cursor.getString(cursor.getColumnIndex(COL_FLOOR_TYPE)),
-                        cursor.getString(cursor.getColumnIndex(COL_CONTACT)),
-                        cursor.getString(cursor.getColumnIndex(COL_IMAGE))
-                );
-                house.setId(cursor.getInt(cursor.getColumnIndex(COL_HOUSE_ID)));
-                house.setUserId(cursor.getInt(cursor.getColumnIndex(COL_USER_ID)));
-                house.setStatus(cursor.getString(cursor.getColumnIndex(COL_STATUS)));
+                House house = createHouseFromCursor(cursor);
                 houses.add(house);
             } while (cursor.moveToNext());
         }
@@ -207,6 +240,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return houses;
     }
 
+    public House getHouseById(int houseId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_HOUSES, null, COL_HOUSE_ID + "=?",
+                new String[]{String.valueOf(houseId)}, null, null, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            House house = createHouseFromCursor(cursor);
+            cursor.close();
+            return house;
+        }
+        if (cursor != null) cursor.close();
+        return null;
+    }
+
+    // Helper method to create House object from cursor
+    private House createHouseFromCursor(Cursor cursor) {
+        House house = new House(
+                cursor.getString(cursor.getColumnIndex(COL_LOCATION)),
+                cursor.getString(cursor.getColumnIndex(COL_ROOMS)),
+                cursor.getString(cursor.getColumnIndex(COL_BATHROOMS)),
+                cursor.getString(cursor.getColumnIndex(COL_FLOOR_TYPE)),
+                cursor.getString(cursor.getColumnIndex(COL_CONTACT)),
+                cursor.getString(cursor.getColumnIndex(COL_IMAGE))
+        );
+        house.setId(cursor.getInt(cursor.getColumnIndex(COL_HOUSE_ID)));
+        house.setUserId(cursor.getInt(cursor.getColumnIndex(COL_USER_ID)));
+        house.setStatus(cursor.getString(cursor.getColumnIndex(COL_STATUS)));
+        house.setPrice(cursor.getString(cursor.getColumnIndex(COL_PRICE))); // Add price
+        return house;
+    }
+
+    // Other house operations (unchanged)
     public boolean acceptJob(int houseId) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -221,30 +286,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 new String[]{String.valueOf(houseId)}) > 0;
     }
 
-    public House getHouseById(int houseId) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_HOUSES, null, COL_HOUSE_ID + "=?",
-                new String[]{String.valueOf(houseId)}, null, null, null);
-
-        if (cursor != null && cursor.moveToFirst()) {
-            House house = new House(
-                    cursor.getString(cursor.getColumnIndex(COL_LOCATION)),
-                    cursor.getString(cursor.getColumnIndex(COL_ROOMS)),
-                    cursor.getString(cursor.getColumnIndex(COL_BATHROOMS)),
-                    cursor.getString(cursor.getColumnIndex(COL_FLOOR_TYPE)),
-                    cursor.getString(cursor.getColumnIndex(COL_CONTACT)),
-                    cursor.getString(cursor.getColumnIndex(COL_IMAGE))
-            );
-            house.setId(cursor.getInt(cursor.getColumnIndex(COL_HOUSE_ID)));
-            house.setStatus(cursor.getString(cursor.getColumnIndex(COL_STATUS)));
-            cursor.close();
-            return house;
-        }
-        if (cursor != null) cursor.close();
-        return null;
-    }
-
-    // Comment operations
+    // Comment operations (unchanged)
     public boolean addComment(int houseId, int userId, String comment, int parentId) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -276,5 +318,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         cursor.close();
         return comments;
+    }
+
+    public boolean updateHouseStatus(int houseId, String newStatus) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COL_STATUS, newStatus);
+        return db.update(TABLE_HOUSES, values, COL_HOUSE_ID + "=?",
+                new String[]{String.valueOf(houseId)}) > 0;
     }
 }

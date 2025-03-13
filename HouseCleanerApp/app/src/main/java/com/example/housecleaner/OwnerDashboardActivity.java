@@ -10,7 +10,7 @@ import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter; // Add this import
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -76,7 +76,7 @@ public class OwnerDashboardActivity extends AppCompatActivity implements HouseAd
 
     private void loadHouses() {
         List<House> houses = dbHelper.getHousesByUserId(userId);
-        adapter = new HouseAdapter(houses, this);
+        adapter = new HouseAdapter(houses, this, dbHelper); // Pass dbHelper to adapter
         recyclerView.setAdapter(adapter);
     }
 

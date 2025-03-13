@@ -13,6 +13,7 @@ public class House implements Parcelable {
     private String contact;
     private String image;
     private String status;
+    private String price; // Added price field
 
     public House(String location, String rooms, String bathrooms, String floorType, String contact, String image) {
         this.location = location;
@@ -34,6 +35,7 @@ public class House implements Parcelable {
         contact = in.readString();
         image = in.readString();
         status = in.readString();
+        price = in.readString(); // Read price from Parcel
     }
 
     public static final Creator<House> CREATOR = new Creator<House>() {
@@ -48,6 +50,7 @@ public class House implements Parcelable {
         }
     };
 
+    // Getters and Setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
     public int getUserId() { return userId; }
@@ -66,6 +69,8 @@ public class House implements Parcelable {
     public void setImage(String image) { this.image = image; }
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
+    public String getPrice() { return price; } // Getter for price
+    public void setPrice(String price) { this.price = price; } // Setter for price
 
     @Override
     public int describeContents() { return 0; }
@@ -81,5 +86,6 @@ public class House implements Parcelable {
         dest.writeString(contact);
         dest.writeString(image);
         dest.writeString(status);
+        dest.writeString(price); // Write price to Parcel
     }
 }

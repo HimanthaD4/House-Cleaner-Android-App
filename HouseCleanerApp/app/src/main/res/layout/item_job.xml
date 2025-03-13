@@ -15,61 +15,101 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <!-- Job Image -->
         <ImageView
             android:id="@+id/ivJobImage"
             android:layout_width="match_parent"
             android:layout_height="160dp"
             android:scaleType="centerCrop"
-            android:contentDescription="Job Image"/>
+            android:contentDescription="Job Image"
+            android:background="@color/light_gray" />
 
+        <!-- Location -->
         <TextView
             android:id="@+id/location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:layout_marginTop="8dp"/>
+            android:textColor="@color/black"
+            android:layout_marginTop="8dp"
+            android:text="Location" />
 
+        <!-- Status -->
         <TextView
             android:id="@+id/status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:layout_marginTop="4dp"/>
+            android:textColor="@color/secondaryText"
+            android:layout_marginTop="4dp"
+            android:text="Status" />
 
+        <!-- Rooms -->
         <TextView
             android:id="@+id/tvRooms"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:layout_marginTop="8dp"/>
+            android:textColor="@color/secondaryText"
+            android:layout_marginTop="8dp"
+            android:text="Rooms: 0" />
 
+        <!-- Bathrooms -->
         <TextView
             android:id="@+id/tvBathrooms"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="14sp"/>
+            android:textSize="14sp"
+            android:textColor="@color/secondaryText"
+            android:text="Bathrooms: 0" />
 
+        <!-- Floor Type -->
         <TextView
             android:id="@+id/tvFloorType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:layout_marginTop="8dp"/>
+            android:textColor="@color/secondaryText"
+            android:layout_marginTop="8dp"
+            android:text="Floor Type: N/A" />
 
+        <!-- Contact -->
         <TextView
             android:id="@+id/tvContact"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:layout_marginTop="8dp"/>
+            android:textColor="@color/secondaryText"
+            android:layout_marginTop="8dp"
+            android:text="Contact: N/A" />
 
+        <!-- Price -->
+        <TextView
+            android:id="@+id/tvPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/orange_yellow_dark"
+            android:layout_marginTop="8dp"
+            android:text="LKR 0.00" />
+
+        <!-- Accept Job Button -->
         <Button
             android:id="@+id/btnAccept"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Accept Job"
-            android:layout_marginTop="16dp"/>
+            android:text="View More"
+            android:backgroundTint="@color/orange_yellow"
+            android:textColor="@android:color/white"
+            android:textAllCaps="false"
+            android:layout_marginTop="16dp"
+            android:paddingVertical="12dp"
+            android:paddingHorizontal="24dp"
+
+            android:drawablePadding="8dp"
+            android:drawableTint="@android:color/white" />
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>
