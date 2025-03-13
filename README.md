@@ -40,19 +40,34 @@
   <table>
     <tr>
       <td align="center">
-        <img src="https://via.placeholder.com/300x500.png?text=Home+Screen" alt="Home Screen" width="200">
+        <img src="https://github.com/HimanthaD4/House-Cleaner-Android-App/blob/main/HouseCleanerApp/app/src/main/res/drawable/login.jpg" alt="Home Screen" width="200">
+        <br>
+        <strong>Login Page</strong>
+      </td>
+      <td align="center">
+        <img src="https://github.com/HimanthaD4/House-Cleaner-Android-App/blob/main/HouseCleanerApp/app/src/main/res/drawable/signup.jpg" alt="Home Screen" width="200">
+        <br>
+        <strong>Register Page</strong>
+      </td>
+      <td align="center">
+        <img src="https://github.com/HimanthaD4/House-Cleaner-Android-App/blob/main/HouseCleanerApp/app/src/main/res/drawable/owner.jpg" alt="Job Details" width="200">
+        <br>
+        <strong>Owner Dashboard</strong>
+      </td>
+      <td align="center">
+        <img src="https://github.com/HimanthaD4/House-Cleaner-Android-App/blob/main/HouseCleanerApp/app/src/main/res/drawable/cleaner.jpg" alt="Job Details" width="200">
         <br>
         <strong>Cleaner Dashboard</strong>
       </td>
-      <td align="center">
-        <img src="https://via.placeholder.com/300x500.png?text=Job+Details" alt="Job Details" width="200">
+       <td align="center">
+        <img src="https://github.com/HimanthaD4/House-Cleaner-Android-App/blob/main/HouseCleanerApp/app/src/main/res/drawable/detail.jpg" alt="Job Details" width="200">
         <br>
-        <strong>Job Details</strong>
+        <strong>House details</strong>
       </td>
       <td align="center">
-        <img src="https://via.placeholder.com/300x500.png?text=Comments+Section" alt="Comments Section" width="200">
+        <img src="https://github.com/HimanthaD4/House-Cleaner-Android-App/blob/main/HouseCleanerApp/app/src/main/res/drawable/addhouse.jpg" alt="Comments Section" width="200">
         <br>
-        <strong>Comments Section</strong>
+        <strong>Add House Form</strong>
       </td>
     </tr>
   </table>
