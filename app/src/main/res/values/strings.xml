@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">House Cleaner</string>
+    <string-array name="floor_types">
+        <item>Hardwood</item>
+        <item>Tile</item>
+        <item>Carpet</item>
+        <item>Laminate</item>
+        <item>Concrete</item>
+    </string-array>
+    <string-array name="gender_options">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Other</item>
+        <item>Prefer not to say</item>
+    </string-array>
+
+
+    <string-array name="user_types">
+        <item>Owner</item>
+        <item>Cleaner</item>
+    </string-array>
+
+
+
+
+</resources>
