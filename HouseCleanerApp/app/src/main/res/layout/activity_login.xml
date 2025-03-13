@@ -12,6 +12,12 @@
     tools:context=".LoginActivity">
 
     <!-- Logo or App Name -->
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="252dp"
+        android:layout_height="205dp"
+        app:srcCompat="@drawable/login" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
